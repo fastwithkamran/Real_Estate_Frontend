@@ -10,9 +10,9 @@ const propertySchema = new Schema(
       type: String,
       required: true,
     },
-    propertyImages: {
+    propertyImages: [{
       type: String,
-    },
+    }],
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "user",
