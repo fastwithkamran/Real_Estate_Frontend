@@ -33,6 +33,6 @@ router.get("/signup", (req, res) => {
 });
 
 router.post("/signup",upload.single("avator"), handleUserSignUp);
-router.post("/login", handleUserLogin);
+router.post("/login", upload.none(), handleUserLogin);
 
 module.exports = router;
