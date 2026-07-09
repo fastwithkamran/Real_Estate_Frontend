@@ -23,14 +23,11 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 const handleCreateProperty = require("../controllers/property");
-const handleCreateComment = require("../controllers/comment");
 
 router.post(
   "/createProperty",
   upload.array("propertyImages", 5),
   handleCreateProperty,
 );
-
-router.post("/comment/:propertyId", upload.none(), handleCreateComment);
 
 module.exports = router;
