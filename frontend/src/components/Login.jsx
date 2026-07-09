@@ -34,7 +34,6 @@ function Login() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen justify-center items-center bg-gray-200 p-4">
         <h1 className="font-bold text-2xl sm:text-3xl lg:text-5xl mb-4">
           Login
         </h1>
@@ -79,7 +78,6 @@ function Login() {
             Let's SignUp
           </button>
         </form>
-      </div>
     </>
   );
 }
