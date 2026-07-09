@@ -15,6 +15,8 @@ const {
   checkForAuthenticationCookie,
 } = require("./middlewares/authentication");
 
+const handleSeedLocations = require("./services/seedLocation")
+
 const app = express();
 const PORT = process.env.PORT;
 
@@ -37,6 +39,8 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+handleSeedLocations();
 
 app.use("/user", authRoute);
 app.use("/property", checkForAuthenticationCookie("token"), propertyRoute);
