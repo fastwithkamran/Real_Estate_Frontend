@@ -9,10 +9,8 @@ const handleUserSignUp = async (req, res) => {
     await User.create({
       fullName,
       email,
-      cnic,
       phone,
       password,
-      role,
       avator: avatorUrl,
     });
 

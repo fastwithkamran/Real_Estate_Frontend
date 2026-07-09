@@ -12,10 +12,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    cnic: {
-      type: String,
-      required: true,
-    },
     phone: {
       type: Number,
       required: true,
@@ -29,11 +25,6 @@ const userSchema = new Schema(
     },
     avator: {
       type: String,
-    },
-    role: {
-      type: String,
-      enum: ["Seller", "Buyer"],
-      required: true,
     },
   },
   { timestamps: true },
