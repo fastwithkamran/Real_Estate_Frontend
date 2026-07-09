@@ -1,4 +1,4 @@
-const { Schema, model } = required("mongoose");
+const { Schema, model } = require("mongoose");
 
 const LocationSchema = new Schema({
   country: {
@@ -21,6 +21,6 @@ const LocationSchema = new Schema({
 
 LocationSchema.index({ city: 1, area: 1 });
 
-const Location = model("locations", LocationSchema);
+const Location = model("location", LocationSchema);
 
 module.exports = Location;
