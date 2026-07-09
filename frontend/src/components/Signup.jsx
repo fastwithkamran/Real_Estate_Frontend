@@ -14,8 +14,7 @@ function Signup() {
       formData.append("cnic", data.cnic);
       formData.append("phone", data.phone);
       formData.append("password", data.password);
-      formData.append("role", data.role);
-
+      
       if (data.avator && data.avator.length > 0) {
         formData.append("avator", data.avator[0]);
       }
@@ -41,7 +40,7 @@ function Signup() {
 
   return (
     <>
-      <h1 className="font-bold text-2xl sm:text-3xl lg:text-5xl mb-4">
+      <h1 className="font-bold text-2xl sm:text-3xl lg:text-5xl mb-2">
         Sign Up
       </h1>
 
@@ -92,15 +91,7 @@ function Signup() {
           accept="image/png, image/jpeg, image/jpg, image/webp"
           {...register("avator")}
         />
-        <label className="font-bold mt-3">Role</label>
-        <select
-          {...register("role")}
-          className="border border-gray-300 bg-amber-50 px-3"
-        >
-          <option value="Buyer">Customer</option>
-          <option value="Seller">Seller</option>
-        </select>
-
+      
         <button
           type="submit"
           className="bg-blue-500 text-white font-bold mt-3 mx-auto w-1/2 px-auto rounded-md hover:bg-gray-600"
