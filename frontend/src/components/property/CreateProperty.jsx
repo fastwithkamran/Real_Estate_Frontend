@@ -97,10 +97,10 @@ function CreateProperty() {
       const formData = new FormData();
 
       formData.append("title", data.title);
-      formData.append("country", data.location);
-      formData.append("province", data.location);
-      formData.append("city", data.location);
-      formData.append("area", data.location);
+      formData.append("country", data.country);
+      formData.append("province", data.province);
+      formData.append("city", data.city);
+      formData.append("area", data.area);
       formData.append("price", data.price);
       formData.append("description", JSON.stringify(descriptionList));
 
