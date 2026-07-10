@@ -15,7 +15,7 @@ const handleUserLogin = async (req, res) => {
         maxAge: 90 * 24 * 60 * 60 * 1000,
       })
       .json({ msg: "Login Success" });
-  } catch {
+  } catch(error) {
     console.log("Error in Login", error);
     return res.status(404).json({ msg: "Incorrect email or password" });
   }
