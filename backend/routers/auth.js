@@ -1,10 +1,6 @@
 const { Router } = require("express");
 const router = Router();
 
-const {
-  checkForAuthenticationCookie,
-} = require("./middlewares/authentication");
-
 const multer = require("multer");
 const cloudinaryModule = require("cloudinary");
 const cloudinary = cloudinaryModule.v2;
@@ -32,6 +28,12 @@ const handleUserSignUp = require("../controllers/signup.js");
 router.post("/signup", upload.single("avator"), handleUserSignUp);
 router.post("/login", upload.none(), handleUserLogin);
 
-router.get("/verify-auth", checkForAuthenticationCookie("token"));
+const {
+  checkForAuthenticationCookie,
+} = require("../middlewares/authentication");
+
+router.get("/verify-auth",checkForAuthenticationCookie("token"), (req,res) => { 
+  return res.status(200).json({msg: "Success"});
+});
 
 module.exports = router;

@@ -8,7 +8,8 @@ function checkForAuthenticationCookie(cookieName) {
 
     try {
       const userPayload = validateToken(tokenCookievalue);
-      return res.status(200).json(userPayload);
+      req.user = userPayload;
+      return next();
     } catch (error) {
       console.log("Error in JWT Verification", error);
       return res
@@ -16,8 +17,6 @@ function checkForAuthenticationCookie(cookieName) {
         .status(401)
         .json({ msg: "Please Login Again" });
     }
-
-    return next();
   };
 }
 

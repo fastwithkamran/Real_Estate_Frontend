@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const router = Router();
 
+const {
+  checkForAuthenticationCookie,
+} = require("../middlewares/authentication");
+
 const multer = require("multer");
 const cloudinaryModule = require("cloudinary");
 const cloudinary = cloudinaryModule.v2;
@@ -15,7 +19,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinaryModule,
   params: {
-    folder: "real-estate/avatars",
+    folder: "real-estate/properties",
     allowed_formats: ["jpg", "jpeg", "png"],
   },
 });
@@ -26,6 +30,7 @@ const handleCreateProperty = require("../controllers/property");
 
 router.post(
   "/createProperty",
+  checkForAuthenticationCookie("token"),
   upload.array("propertyImages", 5),
   handleCreateProperty,
 );
