@@ -7,7 +7,6 @@ router.get("/get-provinces", async (req, res) => {
   try {
     const provincesList = await Location.distinct("province");
 
-    console.log(provincesList);
     if (!provincesList || provincesList.length === 0)
       return res.status(500).json({ msg: "Cannot Get Provinces From Server" });
 
