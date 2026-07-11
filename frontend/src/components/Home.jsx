@@ -1,4 +1,29 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
+
 function Home() {
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = fetch(import.meta.env.VITE_PROPERTYINFO_HOME_API);
+
+        const result = await response.json();
+
+        if (response.ok) {
+          setProperties(result);
+        } else {
+          alert(`Error ${response.msg}`);
+        }
+      } catch (error) {
+        console.log(error);
+        alert("FrontEnd API Call Error, see console");
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="grid md:grid-cols-3 grid-cols-2 w-full">
@@ -17,6 +42,40 @@ function Home() {
           alt="home_3"
           className="w-full object-cover h-full hidden md:block"
         />
+      </div>
+
+      <div className="mt-2 w-full">
+        {!properties || properties.length === 0 ? (
+          <div className="flex justify-center font-bold md:text-2xl mt-3 whitespace-nowrap">There are no properties at this time</div>
+        ) : (
+          properties?.map((property) => (
+            <div
+              key={property._id}
+              className="flex flex-row border-2 rounded-md bg-blue-300 mt-3 p-2 gap-4"
+            >
+              <img
+                src={property.propertyImages}
+                alt="PropertyImage"
+                className="object-cover"
+              />
+              <div className="flex flex-col flex-1 justify-between">
+                <h3 className="text-2xl font-bold">{property.title}</h3>
+                <p className="whitespace-nowrap flex justify-end pr-2">
+                  📍{property.street}, {property.area}, {property.city},{" "}
+                  {property.province}
+                </p>
+                <Link
+                  to={`/property/${property._id}`}
+                  className="flex justify-end"
+                >
+                  <button className="bg-red-500 p-2 w-1/7 rounded-3xl text-white">
+                    View Details
+                  </button>
+                </Link>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </>
   );
