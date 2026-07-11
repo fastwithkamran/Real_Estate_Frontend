@@ -31,6 +31,7 @@ const {
   handlePropertyHome,
   handlePropertyPage,
 } = require("../services/property");
+const handlePropertyFilter = require("../services/filter");
 
 router.post(
   "/createProperty",
@@ -41,5 +42,7 @@ router.post(
 
 router.get("/propertyInfo/home", handlePropertyHome);
 router.get("/propertyInfo/page/:id", handlePropertyPage);
+
+router.get("/propertyfilter", handlePropertyFilter);
 
 module.exports = router;
