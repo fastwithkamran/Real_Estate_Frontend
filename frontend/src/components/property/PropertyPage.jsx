@@ -2,18 +2,22 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
 
 function PropertyPage() {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("undefined");
+  const [price, setPrice] = useState("undefined");
   const [descriptions, setDescription] = useState([]);
-  const [province, setProvince] = useState("");
-  const [city, setCity] = useState("");
-  const [area, setArea] = useState("");
-  const [street, setStreet] = useState("");
+  const [province, setProvince] = useState("undefined");
+  const [city, setCity] = useState("undefined");
+  const [area, setArea] = useState("undefined");
+  const [street, setStreet] = useState("undefined");
   const [images, setImages] = useState([]);
   const [isallowWhatsApp, setAllowWhatsApp] = useState(false);
   const [isallowEmail, setAllowEmail] = useState(false);
   const [sellerName, setSellerName] = useState("undefined");
   const [sellerEmail, setSellerEmail] = useState("undefined");
   const [sellerPhoneNumber, setSellerPhoneNumber] = useState("undefined");
+  const [sellerProfileImage, setSellerProfileImage] = useState(
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIDHxvLx7p1wY2xK4Xvet4kdrXToHtv1X5dLVDoQ57GQ&s=10",
+  );
   const subject = `PAKLANDS: Customer is Interested in ${title}`;
   const body = `Hey, ${sellerName}\n\nCustomer is Interest for your property ${title} through PakLands... Reply this Email as Soon`;
   const encodedBody = encodeURIComponent(body);
@@ -35,6 +39,7 @@ function PropertyPage() {
         console.log(result);
         if (response.ok) {
           setTitle(result.title);
+          setPrice(result.price);
           const descriptionArray = JSON.parse(result.description);
           setDescription(descriptionArray);
           setProvince(result.province);
@@ -45,8 +50,9 @@ function PropertyPage() {
           setAllowWhatsApp(result.allowWhatsApp);
           setAllowEmail(result.allowEmail);
           setSellerName(result?.createdBy?.fullName || "Unknown Seller");
-          setSellerEmail(result?.createdBy?.email);
-          setSellerPhoneNumber(result?.createdBy?.phone);
+          setSellerEmail(result?.createdBy?.email || "null");
+          setSellerPhoneNumber(result?.createdBy?.phone || "null");
+          setSellerProfileImage(result?.createdBy?.avator);
         } else {
           alert(`Error: ${result.msg}`);
         }
@@ -69,7 +75,7 @@ function PropertyPage() {
         </Link>
       </div>
 
-      <h1 className="font-bold text-5xl"> {title} </h1>
+      <h1 className="font-bold md:text-5xl text-2xl"> {title} </h1>
       <p className="text-sm">
         📍 {street}, {area}, {city}, {province}, Pakistan
       </p>
@@ -93,14 +99,18 @@ function PropertyPage() {
               <li key={index}>{element}</li>
             ))}
           </ol>
+
+          <h3 className="font-bold text-4xl text-blue-800 mt-4">
+            Price: <span className="text-black text-2xl">{price}</span>
+          </h3>
         </div>
 
-        <div className=" flex justify-end">
-          <div className="w-1/2 h-1/4 bg-white border-2 rounded-2xl mt-2 p-4 text-center">
+        <div className="flex justify-end">
+          <div className="bg-white border-2 rounded-2xl mt-2 p-4 text-center">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIDHxvLx7p1wY2xK4Xvet4kdrXToHtv1X5dLVDoQ57GQ&s=10"
+              src={sellerProfileImage}
               alt="Profile Image"
-              className="h-20  mx-auto"
+              className="h-30 w-30 mx-auto object-cover"
             />
             <div className="mt-2 font-bold"> Created By: {sellerName} </div>
             <h3 className="mt-2 font-bold mb-2">
