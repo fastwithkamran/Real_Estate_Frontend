@@ -2,7 +2,7 @@ const Property = require("../models/property");
 
 const handleCreateProperty = async (req, res) => {
   try {
-    const { title, description, country, province, city, area } = req.body;
+    const { title, description, country, province, city, area, street, allowWhatsApp, allowEmail } = req.body;
 
     const userId = req.user;
     const createdBy = userId._id;
@@ -21,7 +21,10 @@ const handleCreateProperty = async (req, res) => {
       province,
       city,
       area,
+      street,
       propertyImages,
+      allowWhatsApp,
+      allowEmail,
       createdBy,
     });
 

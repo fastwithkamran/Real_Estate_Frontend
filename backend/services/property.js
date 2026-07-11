@@ -9,6 +9,7 @@ const handlePropertyHome = async (req, res) => {
         province: 1,
         city: 1,
         area: 1,
+        street: 1,
         propertyImages: { $slice: 1 },
       })
       .lean();
@@ -31,9 +32,14 @@ const handlePropertyPage = async (req, res) => {
         province: 1,
         city: 1,
         area: 1,
+        street: 1,
+        allowWhatsApp: 1,
+        allowEmail: 1,
         description: { $slice: 20 },
         propertyImages: { $slice: 5 },
+        createdBy: 1,
       })
+      .populate("createdBy","fullName email phone")
       .lean();
 
     if (!result) return res.status(500).json({ msg: "Cannot Find Properties" });
