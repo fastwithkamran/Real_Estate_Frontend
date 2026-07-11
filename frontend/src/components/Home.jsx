@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
 
 function Home() {
+  const {register, watch} = useForm();
   const [properties, setProperties] = useState([]);
+
+  const [provinces, setProvinces] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [areas, setAreas] = useState([]);
+
+  const selectedProvince = watch("province");
+  const selectedCity = watch("city");
+  const selectedArea = watch("area");
+
   const navigate = useNavigate();
+
   const handlePropertyPage = async (id) => {
     try {
       const response = await fetch(import.meta.env.VITE_AUTH_VERIFICATION_API, {
@@ -34,7 +46,6 @@ function Home() {
             method: "GET",
           },
         );
-        console.log(response);
         const result = await response.json();
 
         if (response.ok) {
@@ -49,6 +60,93 @@ function Home() {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          import.meta.env.VITE_PROVINCES_LOCATION_API,
+        );
+
+        if (response.ok) {
+          const jsonResult = await response.json();
+          setProvinces(jsonResult);
+        }
+      } catch (error) {
+        alert("FrontEnd API Call Error, see console");
+        console.log("Error", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedProvince) {
+      setCities([]);
+      return;
+    }
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_CITIES_LOCATION_API}?provinceName=${encodeURIComponent(selectedProvince)}`,
+        );
+
+        if (response.ok) {
+          const jsonResult = await response.json();
+          setCities(jsonResult);
+        }
+      } catch (error) {
+        alert("FrontEnd API Call Error, see console");
+        console.log("Error", error);
+      }
+    };
+    fetchData();
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    if (!selectedCity) {
+      setAreas([]);
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_AREAS_LOCATION_API}?cityName=${encodeURIComponent(selectedCity)}`,
+        );
+
+        if (response.ok) {
+          const jsonResult = await response.json();
+          setAreas(jsonResult);
+        }
+      } catch (error) {
+        alert("FrontEnd API Call Error, see console");
+        console.log("Error", error);
+      }
+    };
+    fetchData();
+  }, [selectedCity]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_FILTER_API}?province=${encodeURIComponent(selectedProvince)}?city=${encodeURIComponent(selectedCity)}?area=${encodeURIComponent(selectedArea)}`,
+        );
+        const result = await response.json();
+
+        if (response.ok) {
+          setProperties(result);
+        } else {
+          alert(`Error ${response.msg}`);
+        }
+      } catch (error) {
+        console.log(error);
+        alert("FrontEnd API Call Error");
+      }
+    };
+    fetchData();
+  }, [selectedProvince, selectedCity, selectedArea]);
 
   return (
     <>
@@ -69,6 +167,37 @@ function Home() {
           className="w-full object-cover h-full hidden md:block"
         />
       </div>
+
+      <form className="w-full bg-gray-400 mt-4 flex justify-center gap-5">
+        <label className="font-bold text-2xl">Filter:</label>
+        
+        <select {...register("province")} className="bg-amber-50">
+          <option value="">Select Province</option>
+          {provinces.map((province) => (
+            <option key={province} value={province}>
+              {province}
+            </option>
+          ))}
+        </select>
+        
+        <select {...register("city")} className="bg-amber-50">
+          <option value="">Select City</option>
+          {cities.map((city) => (
+            <option key={city} value={city}>
+              {city}
+            </option>
+          ))}
+        </select>
+        
+        <select {...register("area")} className="bg-amber-50">
+          <option value="">Select Area</option>
+          {areas.map((area) => (
+            <option key={area} value={area}>
+              {area}
+            </option>
+          ))}
+        </select>
+      </form>
 
       <div className="mt-2 w-full">
         {!properties || properties.length === 0 ? (
@@ -95,7 +224,7 @@ function Home() {
                 <div className="flex justify-end">
                   <button
                     className="bg-red-500 p-2 w-1/7 rounded-3xl text-white cursor-pointer hover:bg-gray-500"
-                    onClick= {() => handlePropertyPage(property._id)}
+                    onClick={() => handlePropertyPage(property._id)}
                   >
                     View Details
                   </button>
