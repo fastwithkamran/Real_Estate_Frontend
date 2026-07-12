@@ -18,7 +18,7 @@ const handlePropertyHome = async (req, res) => {
     if (!result) return res.status(500).json({ msg: "Cannot Find Properties" });
     return res.status(200).json(result);
   } catch (error) {
-    console.log("Error", error);
+    console.error("Error", error);
     return res.status(500).json({ msg: "Server failed to send data" });
   }
 };
@@ -43,12 +43,12 @@ const handlePropertyPage = async (req, res) => {
       .populate("createdBy", "fullName email phone avator")
       .lean();
 
-    if (!result) return res.status(500).json({ msg: "Cannot Find Properties" });
+    if (!result) return res.status(400).json({ msg: "Cannot Find Properties" });
 
     return res.status(200).json(result);
   } catch (error) {
-    console.log("Error", error);
-    return res.status(500).json({ msg: "Server failed to send data" });
+    console.error("Error", error);
+    return res.status(500).json({ msg: "Cannot find Properties" });
   }
 };
 

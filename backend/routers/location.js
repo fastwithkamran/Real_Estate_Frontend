@@ -8,12 +8,12 @@ router.get("/get-provinces", async (req, res) => {
     const provincesList = await Location.distinct("province");
 
     if (!provincesList || provincesList.length === 0)
-      return res.status(500).json({ msg: "Cannot Get Provinces From Server" });
+      return res.status(404).json({ msg: "Cannot Get Provinces" });
 
     res.status(200).json(provincesList);
   } catch (error) {
-    console.log("Error", error);
-    return res.status(500).json({ msg: "Cannot Get Provinces From Server" });
+    console.error("Cannot Get Provinces ", error);
+    return res.status(500).json({ msg: "Cannot Get Provinces" });
   }
 });
 
@@ -30,8 +30,8 @@ router.get("/get-cities", async (req, res) => {
 
     res.status(200).json(cities);
   } catch (error) {
-    console.log("Error", error);
-    return res.status(500).json({ msg: "Cannot Get Provinces From Server" });
+    console.error("Cannot Get Cities ", error);
+    return res.status(500).json({ msg: "Cannot Get Cities" });
   }
 });
 
@@ -46,8 +46,8 @@ router.get("/get-areas", async (req, res) => {
 
     return res.status(200).json(areas);
   } catch (error) {
-    console.log("Error", error);
-    return res.status(500).json({ msg: "Cannot Get Provinces From Server" });
+    console.error("Cannot Get Areas ", error);
+    return res.status(500).json({ msg: "Cannot Get Areas" });
   }
 });
 

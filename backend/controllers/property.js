@@ -2,7 +2,18 @@ const Property = require("../models/property");
 
 const handleCreateProperty = async (req, res) => {
   try {
-    const { title, description, country, province, city, price, area, street, allowWhatsApp, allowEmail } = req.body;
+    const {
+      title,
+      description,
+      country,
+      province,
+      city,
+      price,
+      area,
+      street,
+      allowWhatsApp,
+      allowEmail,
+    } = req.body;
 
     const userId = req.user;
     const createdBy = userId._id;
@@ -29,13 +40,11 @@ const handleCreateProperty = async (req, res) => {
       createdBy,
     });
 
-    return res
-      .status(201)
-      .json({ msg: "Property Advertisement Created", data: property });
+    return res.status(201).json({ msg: "Property Advertisement Created" });
   } catch (error) {
-    console.log("Error Property Creation", error);
+    console.error("Error Property Creation ", error);
     return res
-      .status(404)
+      .status(500)
       .json({ msg: "Cannot Create Property Advertisement" });
   }
 };

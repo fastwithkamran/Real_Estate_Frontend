@@ -11,7 +11,7 @@ function checkForAuthenticationCookie(cookieName) {
       req.user = userPayload;
       return next();
     } catch (error) {
-      console.log("Error in JWT Verification", error);
+      console.error("Error in JWT Verification", error);
       return res
         .clearCookie("token")
         .status(401)

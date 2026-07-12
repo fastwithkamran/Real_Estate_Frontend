@@ -39,8 +39,8 @@ const handlePropertyFilter = async (req, res) => {
       .lean();
     return res.status(200).json(result);
   } catch (error) {
-    console.log("Error Filtering", error);
-    return res.status(500).json({ msg: "Server error while filtering" });
+    console.error("Error Filtering ", error);
+    return res.status(500).json({ msg: "Filter is not responding" });
   }
 };
 

@@ -29,7 +29,8 @@ const handleSeedLocations = async (req, res) => {
     await Location.deleteMany({});
     await Location.insertMany(insertRecords);
   } catch (error) {
-    console.log("Error Location Feeding", error);
+    console.error("Error Location Feeding ", error);
+    return res.status(500).json({msg: "Error Location Feeding"})
   }
 };
 
