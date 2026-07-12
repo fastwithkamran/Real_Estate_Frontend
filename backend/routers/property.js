@@ -27,11 +27,14 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 const handleCreateProperty = require("../controllers/property");
+
 const {
   handlePropertyHome,
   handlePropertyPage,
 } = require("../services/property");
+
 const handlePropertyFilter = require("../services/filter");
+const handleAllProperties = require("../controllers/allProperties");
 
 router.post(
   "/createProperty",
@@ -44,5 +47,7 @@ router.get("/propertyInfo/home", handlePropertyHome);
 router.get("/propertyInfo/page/:id", handlePropertyPage);
 
 router.get("/propertyfilter", handlePropertyFilter);
+
+router.get("/all-properties/:id", handleAllProperties);
 
 module.exports = router;
