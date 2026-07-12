@@ -8,9 +8,10 @@ const cookieParser = require("cookie-parser");
 
 const authRoute = require("./routers/auth");
 const propertyRoute = require("./routers/property");
-const locationRoute = require("./routers/location")
+const locationRoute = require("./routers/location");
+const profileRoute = require("./routers/profile");
 
-const handleSeedLocations = require("./services/seedLocation")
+const handleSeedLocations = require("./services/seedLocation");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -39,5 +40,6 @@ handleSeedLocations();
 app.use("/user", authRoute);
 app.use("/property", propertyRoute);
 app.use("/location", locationRoute);
+app.use("/profile", profileRoute);
 
 app.listen(PORT, () => console.log("Server Started at ", PORT));
