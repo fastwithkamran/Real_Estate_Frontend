@@ -91,4 +91,7 @@ router.get("/logout", (req, res) => {
   }
 });
 
+const handleUserDelete = require("../controllers/delete");
+router.delete("/delete/:id", handleUserDelete);
+
 module.exports = router;
