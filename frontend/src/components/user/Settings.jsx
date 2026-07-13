@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useParams, Link } from "react-router";
+import { useParams, Link, useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import { useState, useEffect } from "react";
 
 function Settings() {
   const { register, handleSubmit, reset } = useForm();
-
+  const navigate = useNavigate();
   const { userId } = useParams();
 
   const [updateProfile, setUpdateProfile] = useState(0);
@@ -84,6 +84,29 @@ function Settings() {
     }
   };
 
+  const handleAccountDelete = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_ACCOUNT_DELETE}/${userId}`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success(result.msg);
+        navigate("/");
+      } else {
+        toast.error(result.msg);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error failed to fetch API request");
+    }
+  };
+
   return (
     <>
       <div className="mr-auto ml-2">
@@ -143,6 +166,16 @@ function Settings() {
           Update Account
         </button>
       </form>
+
+      <div className="text-2xl mt-5 text-red-600">Delete Account</div>
+      <div>
+        <button
+          className="bg-red-500 w-50 p-2 mt-2 rounded-2xl text-white cursor-pointer hover:bg-gray-500"
+          onClick={handleAccountDelete}
+        >
+          Delete
+        </button>
+      </div>
     </>
   );
 }
