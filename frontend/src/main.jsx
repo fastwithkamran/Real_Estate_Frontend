@@ -29,8 +29,8 @@ const router = createBrowserRouter(
       <Route path="/user/property-page/:id" element={<PropertyPage />} />
       <Route path="/auth/signup" element={<Signup />} />
       <Route path="/auth/login" element={<Login />} />
-      <Route path="/user/settings/:id" element={<Settings />} />
-      <Route path="/user/allposts/:id" element={<AllPosts />} />
+      <Route path="/user/settings/:userId" element={<Settings />} />
+      <Route path="/user/allposts/:userId" element={<AllPosts />} />
     </Route>,
   ),
 );
