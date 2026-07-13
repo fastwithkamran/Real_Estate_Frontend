@@ -77,20 +77,9 @@ function Login() {
         <input
           className="border border-gray-300 bg-amber-50 px-3"
           type="password"
-          {...register("phone", {
-            pattern: {
-              value: /^923\d{9}$/,
-              message:
-                "Please provide a valid Pakistani mobile number in 923123456789 format",
-            },
-          })}
+          {...register("password")}
           placeholder="Enter your password"
         />
-        {errors?.phone && (
-          <p className="mt-1 bg-red-600 text-amber-50 flex-nowrap">
-            {errors.phone.message}
-          </p>
-        )}
 
         <button
           type="submit"
