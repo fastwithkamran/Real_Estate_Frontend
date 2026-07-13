@@ -7,6 +7,13 @@ const handleUserDelete = async (req, res) => {
       createdBy: req.params.id,
     });
 
+    res.clearCookie("token", {
+      path: "/",
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+    
     const userDelete = await User.findByIdAndDelete(req.params.id);
     if (userDelete) {
       return res.status(200).json({ msg: "Account Deleted Successfully" });
