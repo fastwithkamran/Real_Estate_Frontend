@@ -34,7 +34,10 @@ const {
 } = require("../services/property");
 
 const handlePropertyFilter = require("../services/filter");
-const handleAllProperties = require("../controllers/allProperties");
+const {
+  handleAllProperties,
+  handleDeletePropety,
+} = require("../controllers/allProperties");
 
 router.post(
   "/createProperty",
@@ -44,10 +47,13 @@ router.post(
 );
 
 router.get("/propertyInfo/home", handlePropertyHome);
+
 router.get("/propertyInfo/page/:id", handlePropertyPage);
 
 router.get("/propertyfilter", handlePropertyFilter);
 
 router.get("/all-properties/:id", handleAllProperties);
+
+router.delete("/delete/:id", handleDeletePropety);
 
 module.exports = router;
