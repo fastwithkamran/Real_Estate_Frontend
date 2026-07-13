@@ -32,6 +32,6 @@ router.patch(
   handleUpdateProfile,
 );
 
-router.patch("/update-password/:id", upload.none(), handleUpdatePassword);
+router.patch("/update-password/:userId", upload.none(), handleUpdatePassword);
 
 module.exports = router;
