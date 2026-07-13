@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const { createHmac, randomBytes } = require("crypto");
 
 const handleUpdateProfile = async (req, res) => {
   try {
@@ -45,7 +46,7 @@ const handleUpdateProfile = async (req, res) => {
 
 const handleUpdatePassword = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.params.userId;
     const { currentpassword, newpassword } = req.body;
 
     const user = await User.findById(id);
@@ -66,18 +67,22 @@ const handleUpdatePassword = async (req, res) => {
       .update(newpassword)
       .digest("hex");
 
-    const userPasswordUpdate = await User.findByIdAndUpdate(id, newHashedPassword, {
-      returnDocument: "after",
-      runValidators: true,
-    });
+    const userPasswordUpdate = await User.findByIdAndUpdate(
+      id,
+      { password: newHashedPassword },
+      {
+        returnDocument: "after",
+        runValidators: true,
+      },
+    );
 
-    if (!userPasswordUpdate) return res.status(400).json({ msg: "Password could not be updated" });
+    if (!userPasswordUpdate)
+      return res.status(400).json({ msg: "Password could not be updated" });
 
     return res.status(200).json({ msg: "Password Updated" });
-
   } catch (error) {
     console.error("Error Updating Password ", error);
     return res.status(500).json({ msg: "Password Could Not Updated" });
   }
 };
-module.exports = {handleUpdateProfile, handleUpdatePassword};
+module.exports = { handleUpdateProfile, handleUpdatePassword };
