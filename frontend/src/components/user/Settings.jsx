@@ -137,19 +137,27 @@ function Settings() {
 
   const UpdatePassword = async (data) => {
     try {
-      const formData = new formData();
+      const formData = new FormData();
 
       if (!data.password) {
         toast.error("Current Password Not Found");
+        return;
       }
 
       if (!data.newpassword) {
         toast.error("New Password Not Found");
+        return;
       }
+
+      formData.append("currentpassword", data.password);
+      formData.append("newpassword", data.newpassword);
+
       const response = await fetch(
         `${import.meta.env.VITE_PASSWORD_UPDATE}/${userId}`,
         {
           method: "PATCH",
+          body: formData,
+          credentials: "include",
         },
       );
 
