@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { toast } from "react-hot-toast";
 
 function Login() {
@@ -88,20 +88,18 @@ function Login() {
           Login
         </button>
       </form>
-      <form
-        action="/auth/signup"
-        className="w-full max-w-md p-6 rounded-md bg-blue-800 flex flex-col mt-3"
-      >
+      <div className="w-full max-w-md p-6 rounded-md bg-blue-800 flex flex-col mt-3">
         <label className="font-bold mt-3 lg:text-2xl text-blue-100 flex justify-center">
           New User:
         </label>
         <button
-          type="submit"
+          type="button"
+          onClick={() => navigate("/auth/signup")}
           className="bg-blue-500 text-white font-bold mt-3 mx-auto w-1/2 px-auto rounded-md hover:bg-gray-600"
         >
           Let's SignUp
         </button>
-      </form>
+      </div>
     </>
   );
 }
