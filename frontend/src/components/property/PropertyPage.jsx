@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
+import { toast } from "react-hot-toast";
 
 function PropertyPage() {
   const [title, setTitle] = useState("undefined");
@@ -36,7 +37,7 @@ function PropertyPage() {
           },
         );
         const result = await response.json();
-        console.log(result);
+
         if (response.ok) {
           setTitle(result.title);
           setPrice(result.price);
@@ -54,11 +55,11 @@ function PropertyPage() {
           setSellerPhoneNumber(result?.createdBy?.phone || "null");
           setSellerProfileImage(result?.createdBy?.avator);
         } else {
-          alert(`Error: ${result.msg}`);
+          toast.error(`Error: ${result.msg}`);
         }
       } catch (error) {
-        alert("Frontend API Call Failed");
-        console.log("Error", error);
+        toast.error("Error failed to fetch API request");
+        console.error("Error", error);
       }
     };
     fetchData();
@@ -66,7 +67,7 @@ function PropertyPage() {
 
   return (
     <>
-      <div className="mr-auto">
+      <div className="mr-auto ml-2">
         <Link
           to="/"
           className="md:text-2xl bg-amber-50 rounded-2xl border-2 p-2 text-pink-800"

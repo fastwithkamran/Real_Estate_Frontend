@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 function Home() {
   const { register, watch } = useForm();
@@ -29,12 +30,12 @@ function Home() {
       if (response.ok) {
         navigate(`/user/property-page/${id}`);
       } else {
-        alert(`Error: ${result.msg}`);
+        toast.error(`Error: ${result.msg}`);
         navigate("/auth/login");
       }
     } catch (error) {
-      console.log("Error", error);
-      alert("Error while Fetching API from Frontend");
+      console.error("Error", error);
+      toast.error("Error failed to fetch API request");
     }
   };
 
@@ -53,11 +54,11 @@ function Home() {
           setProperties(result);
           allPropertiesRef.current = result;
         } else {
-          alert(`Error ${response.msg}`);
+          toast.error(`Error ${response.msg}`);
         }
       } catch (error) {
-        console.log(error);
-        alert("FrontEnd API Call Error, see console");
+        console.error(error);
+        toast.error("Error failed to fetch API request");
       }
     };
     fetchData();
@@ -75,8 +76,8 @@ function Home() {
           setProvinces(jsonResult);
         }
       } catch (error) {
-        alert("FrontEnd API Call Error, see console");
-        console.log("Error", error);
+        toast.error("Error failed to fetch API request");
+        console.error("Error", error);
       }
     };
     fetchData();
@@ -98,8 +99,8 @@ function Home() {
           setCities(jsonResult);
         }
       } catch (error) {
-        alert("FrontEnd API Call Error, see console");
-        console.log("Error", error);
+        toast.error("Error failed to fetch API request");
+        console.error("Error", error);
       }
     };
     fetchData();
@@ -122,8 +123,8 @@ function Home() {
           setAreas(jsonResult);
         }
       } catch (error) {
-        alert("FrontEnd API Call Error, see console");
-        console.log("Error", error);
+        toast.error("Error failed to fetch API request");
+        console.error("Error", error);
       }
     };
     fetchData();
@@ -150,11 +151,11 @@ function Home() {
         if (response.ok) {
           setProperties(result);
         } else {
-          alert(`Error ${response.msg}`);
+          toast.error(`Error ${response.msg}`);
         }
       } catch (error) {
-        console.log(error);
-        alert("FrontEnd API Call Error");
+        console.error(error);
+        toast.error("Error failed to fetch API request");
       }
     };
     fetchData();
@@ -222,7 +223,6 @@ function Home() {
               key={property._id}
               className="flex md:flex-row flex-col border-2 rounded-md bg-blue-300 mt-3 p-2 gap-4"
             >
-              {console.log(property.propertyImages)}
               <img
                 src={property.propertyImages}
                 alt="PropertyImage"

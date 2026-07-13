@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { toast } from "react-hot-toast";
 
 function Login() {
   const { register, handleSubmit, reset } = useForm();
@@ -8,6 +9,16 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
+
+      if (!data.email) {
+        toast.error("Email is undefined");
+        return;
+      }
+
+      if (!data.password) {
+        toast.error("Password is undefined");
+        return;
+      }
 
       formData.append("email", data.email);
       formData.append("password", data.password);
@@ -24,11 +35,11 @@ function Login() {
         navigate("/");
         reset();
       } else {
-        alert(`Error: ${result.msg}`);
+        toast.error(`Error: ${result.msg}`);
       }
     } catch (error) {
-      alert("Frontend API Call Error to Server, see console");
-      console.log("Error", error);
+      toast.error("Error failed to fetch API request");
+      console.error("Error", error);
     }
   };
 

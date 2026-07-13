@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { toast } from "react-hot-toast";
 
 function CreateProperty() {
   const { register, handleSubmit, reset, watch } = useForm();
@@ -27,8 +28,8 @@ function CreateProperty() {
           setProvinces(jsonResult);
         }
       } catch (error) {
-        alert("FrontEnd API Call Error, see console");
-        console.log("Error", error);
+        toast.error("Error failed to fetch API request");
+        console.error("Error", error);
       }
     };
     fetchData();
@@ -50,8 +51,8 @@ function CreateProperty() {
           setCities(jsonResult);
         }
       } catch (error) {
-        alert("FrontEnd API Call Error, see console");
-        console.log("Error", error);
+        toast.error("Error failed to fetch API request");
+        console.error("Error", error);
       }
     };
     fetchData();
@@ -74,8 +75,8 @@ function CreateProperty() {
           setAreas(jsonResult);
         }
       } catch (error) {
-        alert("FrontEnd API Call Error, see console");
-        console.log("Error", error);
+        toast.error("Error failed to fetch API request");
+        console.error("Error", error);
       }
     };
     fetchData();
@@ -96,6 +97,46 @@ function CreateProperty() {
     try {
       const formData = new FormData();
 
+      if (!data.title) {
+        toast.error("title is undefined");
+        return;
+      }
+
+      if (!descriptionList || descriptionList.length === 0) {
+        toast.error("descriptionList is undefined");
+        return;
+      }
+
+      if (!data.country) {
+        toast.error("country is undefined");
+        return;
+      }
+
+      if (!data.province) {
+        toast.error("province is undefined");
+        return;
+      }
+
+      if (!data.area) {
+        toast.error("area is undefined");
+        return;
+      }
+
+      if (!data.street) {
+        toast.error("street is undefined");
+        return;
+      }
+
+      if (!data.price) {
+        toast.error("price is undefined");
+        return;
+      }
+
+      if (!data.allowEmail && !data.allowWhatsApp) {
+        toast.error("One is require to check either Email or WhatsApp");
+        return;
+      }
+
       formData.append("title", data.title);
       formData.append("country", data.country);
       formData.append("province", data.province);
@@ -104,8 +145,8 @@ function CreateProperty() {
       formData.append("street", data.street);
       formData.append("price", data.price);
       formData.append("description", JSON.stringify(descriptionList));
-      formData.append("allowWhatsApp",data.allowWhatsApp);
-      formData.append("allowEmail",data.allowEmail);
+      formData.append("allowWhatsApp", data.allowWhatsApp);
+      formData.append("allowEmail", data.allowEmail);
 
       if (data.propertyImages && data.propertyImages.length > 0) {
         const files = Array.from(data.propertyImages).slice(0, 5);
@@ -128,18 +169,23 @@ function CreateProperty() {
         reset();
         navigate("/");
       } else {
-        alert(`Error ${result.msg}`);
+        toast.error(`Error ${result.msg}`);
       }
     } catch (error) {
-      alert("Frontend API Call Error to Server, see console");
-      console.log("Error", error);
+      toast.error("Error failed to fetch API request");
+      console.error("Error", error);
     }
   };
 
   return (
     <>
-      <div className="mr-auto">
-        <Link to="/" className="md:text-2xl bg-amber-50 rounded-2xl border-2 p-2 text-pink-800">Back</Link>
+      <div className="mr-auto ml-2">
+        <Link
+          to="/"
+          className="md:text-2xl bg-amber-50 rounded-2xl border-2 p-2 text-pink-800"
+        >
+          Back
+        </Link>
       </div>
 
       <h1 className="font-bold text-2xl sm:text-3xl lg:text-5xl mb-4">
