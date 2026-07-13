@@ -31,6 +31,31 @@ function PropertyPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(
+          import.meta.env.VITE_AUTH_VERIFICATION_API,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          navigate("/");
+          toast.error(result.msg);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Error failed to fetch API request");
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
           `${import.meta.env.VITE_PROPERTY_INFO_API}/${id}`,
           {
             method: "GET",
