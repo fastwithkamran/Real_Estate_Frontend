@@ -14,8 +14,6 @@ function createTokenForUser(user) {
 
 function validateToken(token) {
   const payload = JWT.verify(token, secret);
-
-  if (!payload) return res.status(400).json({ msg: "Invalid Auth Token" });
   return payload;
 }
 
