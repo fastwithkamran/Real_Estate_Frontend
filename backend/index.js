@@ -14,9 +14,9 @@ const profileRoute = require("./routers/profile");
 const handleSeedLocations = require("./services/seedLocation");
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = ["http://localhost:5173", "https://paklands-realestate-project.vercel.app"];
 
 app.use(
   cors({
@@ -32,24 +32,27 @@ app.use(
   }),
 );
 
+app.use(cookieParser());
+
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => {
+  .then(async () => {
     console.log("MongoDB Atlas Connected");
+    
+    await handleSeedLocations();
+    
+    app.use("/user", authRoute);
+    app.use("/property", propertyRoute);
+    app.use("/location", locationRoute);
+    app.use("/profile", profileRoute);
+
+    if (process.env.NODE_ENV !== "production") {
+      app.listen(PORT, () => console.log("Server Started at ", PORT));
+    }
   })
   .catch((err) => {
     console.log("Database Connection Failed", err);
+    process.exit(1);
   });
 
-app.use(cookieParser());
-
-handleSeedLocations();
-
-app.use("/user", authRoute);
-app.use("/property", propertyRoute);
-app.use("/location", locationRoute);
-app.use("/profile", profileRoute);
-
-if (process.NODE_ENV !== "production") {
-  app.listen(PORT, () => console.log("Server Started at ", PORT));
-}
+module.exports = app;
