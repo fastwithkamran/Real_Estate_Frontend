@@ -7,8 +7,13 @@ export default async function handler(req, res) {
       return res.status(500).json({ msg: "Server misconfiguration." });
     }
 
-    const targetPath = req.url.replace(/^\/api/, "") || "/";
+    const urlObj = new URL(req.url, "http://localhost");
+    const originalPath = urlObj.searchParams.get("__path") || "";
+    urlObj.searchParams.delete("__path");
+    const remainingQuery = urlObj.searchParams.toString();
+    const targetPath = `/${originalPath}${remainingQuery ? "?" + remainingQuery : ""}`;
     const targetUrl = `${backendUrl}${targetPath}`;
+
 
     const forwardHeaders = {};
 
