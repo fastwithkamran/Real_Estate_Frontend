@@ -19,7 +19,7 @@ import {
   PropertyPage,
   Settings,
   AllPosts,
-} from "./components";
+} from "./pages";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
