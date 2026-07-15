@@ -3,8 +3,8 @@ export default async function handler(req, res) {
     const backendUrl = process.env.BACKEND_URL;
 
     if (!backendUrl) {
-      console.error("BACKEND_URL is not found");
-      return res.status(500).json({ msg: "Server misconfiguration." });
+      console.error("Backend API not found");
+      return res.status(500).json({ msg: "Backend API not found" });
     }
 
     const urlObj = new URL(req.url, "http://localhost");
