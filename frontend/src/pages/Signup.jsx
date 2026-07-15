@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { toast } from "react-hot-toast";
-import apiFetch from "../services/apiClient"
+import { useState } from "react";
 
 function Signup() {
   const {
@@ -12,30 +12,33 @@ function Signup() {
   } = useForm();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(null);
+
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
 
       if (!data.fullName) {
-        toast.error("Name is undefined");
+        toast.error("Name is Undefined");
         return;
       }
 
       if (!data.email) {
-        toast.error("Email is undefined");
+        toast.error("Email is Undefined");
         return;
       }
 
       if (!data.phone) {
-        toast.error("Phone is undefined");
+        toast.error("Phone is Undefined");
         return;
       }
 
       if (!data.password) {
-        toast.error("Password is undefined");
+        toast.error("Password is Undefined");
         return;
       }
 
+      setLoading(true);
       formData.append("fullName", data.fullName);
       formData.append("email", data.email);
       formData.append("phone", data.phone);
@@ -45,65 +48,64 @@ function Signup() {
         formData.append("avator", data.avator[0]);
       }
 
-      const response = await apiFetch(import.meta.env.VITE_SIGNUP_API, {
+      const response = await fetch("/api/user/signup", {
         method: "POST",
         body: formData,
-        credentials: "include",
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        reset();
         navigate("/");
+        toast.success(result.msg);
+        reset();
       } else {
-        toast.error(`Errror: ${result.msg}`);
+        toast.error(`Error: ${result.msg}`);
       }
+      setLoading(false);
+      return;
     } catch (error) {
+      if (import.meta.env.VITE_ERROR === "development") console.error(error);
       toast.error("Error failed to fetch API request");
     }
   };
 
   return (
     <>
-      <h1 className="font-bold text-2xl sm:text-3xl lg:text-5xl mb-2">
-        Sign Up
-      </h1>
+      <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
 
       <form
         encType="multipart/form-data"
+        className="flex flex-col gap-4 decoration-0"
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md lg:gap-2 gap-1 p-6 rounded-md bg-blue-300 flex flex-col"
       >
-        <label className="font-bold">Full Name</label>
         <input
-          className="border border-gray-300 bg-amber-50 px-3"
+          type="text"
+          className="border-none bg-amber-50 p-3 rounded-lg"
           type="text"
           {...register("fullName")}
-          placeholder="Enter your full name"
+          placeholder="Full Name"
         />
-        <label className="font-bold mt-3">Email</label>
         <input
-          className="border border-gray-300 bg-amber-50 px-3"
           type="text"
+          className="border-none bg-amber-50 p-3 rounded-lg"
+          type="email"
           {...register("email", {
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
               message: "Please provide a valid Email",
             },
           })}
-          placeholder="Enter your email"
+          placeholder="Email Address"
         />
         {errors?.email && (
-          <p className="mt-1 bg-red-600 text-amber-50 flex-nowrap">
+          <p className="text-sm text-center text-red-600">
             {errors.email.message}
           </p>
         )}
-
-        <label className="font-bold mt-3">Phone</label>
         <input
-          className="border border-gray-300 bg-amber-50 px-3"
-          type="text"
+          className="border-none bg-amber-50 p-3 rounded-lg"
+          type="tel"
           {...register("phone", {
             pattern: {
               value: /^923\d{9}$/,
@@ -111,36 +113,41 @@ function Signup() {
                 "Please provide a valid Pakistani mobile number in 923123456789 format",
             },
           })}
-          placeholder="Enter your number"
+          placeholder="Phone Number"
         />
         {errors?.phone && (
-          <p className="mt-1 bg-red-600 text-amber-50 flex-nowrap">
+          <p className="text-sm text-center text-red-600">
             {errors.phone.message}
           </p>
         )}
-
-        <label className="font-bold mt-3">Password</label>
         <input
-          className="border border-gray-300 bg-amber-50 px-3"
+          type="text"
+          className="border-none bg-amber-50 p-3 rounded-lg"
           type="password"
           {...register("password")}
-          placeholder="Enter your password"
+          placeholder="Password"
         />
-        <label className="font-bold mt-3">Avator</label>
         <input
-          className="border border-gray-300 bg-amber-50 px-3"
+          className="border-none  bg-amber-50 p-3 rounded-lg"
           type="file"
           accept="image/png, image/jpeg, image/jpg, image/webp"
           {...register("avator")}
         />
-
         <button
+          disable={loading}
           type="submit"
-          className="bg-blue-500 text-white font-bold mt-3 mx-auto w-1/2 px-auto rounded-md hover:bg-gray-600"
+          className="bg-slate-700 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95"
         >
-          Create Account
+          {loading ? "Loading..." : "Create Account"}
         </button>
       </form>
+
+      <div className="flex gap-2 mt-5">
+        <p>Have an account?</p>
+        <Link to="/auth/login" className="text-blue-700">
+          <span>Login</span>
+        </Link>
+      </div>
     </>
   );
 }
