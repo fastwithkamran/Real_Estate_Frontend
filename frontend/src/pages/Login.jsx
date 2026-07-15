@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router";
 import { toast } from "react-hot-toast";
-import apiFetch from "../services/apiClient"
+import { useState } from "react";
 
 function Login() {
   const {
@@ -11,6 +11,7 @@ function Login() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -26,10 +27,11 @@ function Login() {
         return;
       }
 
+      setLoading(true);
       formData.append("email", data.email);
       formData.append("password", data.password);
 
-      const response = await apiFetch(import.meta.env.VITE_LOGIN_API, {
+      const response = await fetch("/api/user/login", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -39,67 +41,66 @@ function Login() {
 
       if (response.ok) {
         navigate("/");
+        toast.success(result.msg)
         reset();
       } else {
         toast.error(`Error: ${result.msg}`);
       }
+      setLoading(false);
+      return;
     } catch (error) {
+      if (import.meta.env.VITE_ERROR === "development") console.error(error);
       toast.error("Error failed to fetch API request");
     }
   };
 
   return (
     <>
-      <h1 className="font-bold text-2xl sm:text-3xl lg:text-5xl mb-4">Login</h1>
+      <h1 className="text-3xl text-center font-semibold my-7">Login</h1>
 
       <form
         encType="multipart/form-data"
+        className="flex flex-col gap-4 decoration-0"
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md lg:gap-2 gap-1 p-6 rounded-md bg-blue-300 flex flex-col"
       >
-        <label className="font-bold mt-3">Email</label>
         <input
-          className="border border-gray-300 bg-amber-50 px-3"
           type="text"
+          className="border-none bg-amber-50 p-3 rounded-lg pr-14 sm:pr-64"
+          type="email"
           {...register("email", {
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
               message: "Please provide a valid Email",
             },
           })}
-          placeholder="Enter your email"
+          placeholder="Email Address"
         />
         {errors?.email && (
-          <p className="mt-1 bg-red-600 text-amber-50 flex-nowrap">
+          <p className="text-sm text-center text-red-600">
             {errors.email.message}
           </p>
         )}
-        <label className="font-bold mt-3">Password</label>
         <input
-          className="border border-gray-300 bg-amber-50 px-3"
+          type="text"
+          className="border-none bg-amber-50 p-3 rounded-lg"
           type="password"
           {...register("password")}
-          placeholder="Enter your password"
+          placeholder="Password"
         />
-
         <button
+          disable={loading}
           type="submit"
-          className="bg-blue-500 text-white font-bold mt-3 mx-auto w-1/2 px-auto rounded-md hover:bg-gray-600"
+          className="bg-slate-700 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95"
         >
-          Login
+          {loading ? "Loading..." : "Login"}
         </button>
       </form>
-      <div className="w-full max-w-md p-6 rounded-md bg-blue-800 flex flex-col mt-3">
-        <label className="font-bold mt-3 lg:text-2xl text-blue-100 flex justify-center">
-          New User:
-        </label>
-        <button
-          type="button"
-          onClick={() => navigate("/auth/signup")}
-          className="bg-blue-500 text-white font-bold mt-3 mx-auto w-1/2 px-auto rounded-md hover:bg-gray-600"
-        >
-          Let's SignUp
-        </button>
+
+      <div className="flex gap-2 mt-5">
+        <p>Dont have an account?</p>
+        <Link to="/auth/signup" className="text-blue-700">
+          <span>Sign up</span>
+        </Link>
       </div>
     </>
   );
