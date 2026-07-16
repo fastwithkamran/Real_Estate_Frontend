@@ -1,7 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router";
 import { toast } from "react-hot-toast";
-import { useState } from "react";
+import OAuth from "../components/OAuth";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+} from "../redux/user/userSlice.js";
 
 function Login() {
   const {
@@ -11,7 +17,9 @@ function Login() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const { loading } = useSelector((state) => state.user);
 
   const onSubmit = async (data) => {
     try {
@@ -27,7 +35,7 @@ function Login() {
         return;
       }
 
-      setLoading(true);
+      dispatch(loginStart);
       formData.append("email", data.email);
       formData.append("password", data.password);
 
@@ -41,16 +49,14 @@ function Login() {
 
       if (response.ok) {
         navigate("/");
-        toast.success(result.msg)
+        dispatch(loginSuccess(result));
         reset();
       } else {
-        toast.error(`Error: ${result.msg}`);
+        dispatch(loginFailure(result.msg));
       }
-      setLoading(false);
-      return;
     } catch (error) {
       if (import.meta.env.VITE_ERROR === "development") console.error(error);
-      toast.error("Error failed to fetch API request");
+      dispatch(loginFailure("Error failed to fetch API request"));
     }
   };
 
@@ -94,6 +100,7 @@ function Login() {
         >
           {loading ? "Loading..." : "Login"}
         </button>
+        <OAuth />
       </form>
 
       <div className="flex gap-2 mt-5">

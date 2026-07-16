@@ -1,7 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router";
 import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+} from "../redux/user/userSlice.js";
+import OAuth from "../components/OAuth";
 
 function Signup() {
   const {
@@ -11,8 +17,9 @@ function Signup() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(null);
+  const { loading } = useSelector((state) => state.user);
 
   const onSubmit = async (data) => {
     try {
@@ -28,20 +35,14 @@ function Signup() {
         return;
       }
 
-      if (!data.phone) {
-        toast.error("Phone is Undefined");
-        return;
-      }
-
       if (!data.password) {
         toast.error("Password is Undefined");
         return;
       }
 
-      setLoading(true);
+      dispatch(loginStart);
       formData.append("fullName", data.fullName);
       formData.append("email", data.email);
-      formData.append("phone", data.phone);
       formData.append("password", data.password);
 
       if (data.avator && data.avator.length > 0) {
@@ -57,16 +58,14 @@ function Signup() {
 
       if (response.ok) {
         navigate("/");
-        toast.success(result.msg);
+        dispatch(loginSuccess(result));
         reset();
       } else {
-        toast.error(`Error: ${result.msg}`);
+        dispatch(loginFailure(result.msg));
       }
-      setLoading(false);
-      return;
     } catch (error) {
       if (import.meta.env.VITE_ERROR === "development") console.error(error);
-      toast.error("Error failed to fetch API request");
+      dispatch(loginFailure("Error failed to fetch API request"));
     }
   };
 
@@ -81,7 +80,7 @@ function Signup() {
       >
         <input
           type="text"
-          className="border-none bg-amber-50 p-3 rounded-lg"
+          className="border-none bg-amber-50 p-3 rounded-lg sm:pr-64"
           type="text"
           {...register("fullName")}
           placeholder="Full Name"
@@ -104,23 +103,6 @@ function Signup() {
           </p>
         )}
         <input
-          className="border-none bg-amber-50 p-3 rounded-lg"
-          type="tel"
-          {...register("phone", {
-            pattern: {
-              value: /^923\d{9}$/,
-              message:
-                "Please provide a valid Pakistani mobile number in 923123456789 format",
-            },
-          })}
-          placeholder="Phone Number"
-        />
-        {errors?.phone && (
-          <p className="text-sm text-center text-red-600">
-            {errors.phone.message}
-          </p>
-        )}
-        <input
           type="text"
           className="border-none bg-amber-50 p-3 rounded-lg"
           type="password"
@@ -140,6 +122,7 @@ function Signup() {
         >
           {loading ? "Loading..." : "Create Account"}
         </button>
+        <OAuth />
       </form>
 
       <div className="flex gap-2 mt-5">
