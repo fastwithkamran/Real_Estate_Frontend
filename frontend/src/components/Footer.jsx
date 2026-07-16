@@ -4,44 +4,44 @@ function Footer() {
   return (
     <>
       <div className="bg-black w-full">
-        <div className="grid md:grid-cols-4 grid-cols-1 bg-blue-800 md:p-3 p-1 gap-4">
+        <div className="grid md:grid-cols-4 grid-cols-1 bg-slate-200 md:p-3 p-1 gap-4">
           <div className="flex flex-col items-center text-center">
             <img
               src="/logo.png"
               alt="Logo"
               className="md:w-48 w-36 h-auto object-cover"
             />
-            <h3 className="text-white text-2xl font-bold">PAKLANDS</h3>
-            <p className="text-white text-sm">
+            <h3 className="text-black text-2xl font-bold">PAKLANDS</h3>
+            <p className="text-black text-sm">
               Created my first MERN Project. It is a platform for Pakistanis to
               sell their properties online.
             </p>
           </div>
 
           <div className="flex flex-col text-center">
-            <h3 className="font-bold text-white text-2xl">Quick Links</h3>
+            <h3 className="font-bold text-black text-2xl">Quick Links</h3>
             <div className="flex flex-col">
               <Link
                 to="/"
-                className="text-blue-50 cursor-pointer hover:text-red-700"
+                className="text-blue-500 cursor-pointer hover:text-red-700"
               >
                 Home
               </Link>
               <Link
                 to="/user/create-property"
-                className="text-blue-50 cursor-pointer hover:text-red-700"
+                className="text-blue-500 cursor-pointer hover:text-red-700"
               >
                 Create Ad
               </Link>
               <Link
                 to="/user/settings/:userId"
-                className="text-blue-50 cursor-pointer hover:text-red-700"
+                className="text-blue-500 cursor-pointer hover:text-red-700"
               >
                 Settings
               </Link>
               <Link
                 to="/user/allposts/:userId"
-                className="text-blue-50 cursor-pointer hover:text-red-700"
+                className="text-blue-500 cursor-pointer hover:text-red-700"
               >
                 View All Posts
               </Link>
@@ -49,23 +49,23 @@ function Footer() {
           </div>
 
           <div className="flex flex-col text-center">
-            <h3 className="font-bold text-white text-2xl">Support</h3>
+            <h3 className="font-bold text-black text-2xl">Support</h3>
             <div className="flex flex-col items-center">
               <Link
                 to="/"
-                className="text-blue-50 flex justify-start cursor-pointer hover:text-red-700"
+                className="text-blue-500 flex justify-start cursor-pointer hover:text-red-700"
               >
                 Privacy Policy
               </Link>
               <Link
                 to="/"
-                className="text-blue-50 flex justify-start cursor-pointer hover:text-red-700"
+                className="text-blue-500 flex justify-start cursor-pointer hover:text-red-700"
               >
                 Terms and Conditions
               </Link>
               <Link
                 to="/"
-                className="text-blue-50 flex justify-start cursor-pointer hover:text-red-700"
+                className="text-blue-500 flex justify-start cursor-pointer hover:text-red-700"
               >
                 Developer & Details
               </Link>
@@ -73,7 +73,7 @@ function Footer() {
           </div>
 
           <div className="flex flex-col items-center mb-2">
-            <h3 className="font-bold text-white text-2xl">Connect</h3>
+            <h3 className="font-bold text-black text-2xl">Connect</h3>
             <div className="flex flex-row gap-2 mt-2">
               <a href="https://www.instagram.com">
                 <img
@@ -108,8 +108,8 @@ function Footer() {
         </div>
       </div>
 
-      <div className="text-sm text-white text-center bg-black">
-        Developed By Kamran 2026
+      <div className="text-sm border-t border-slate-200 text-center text-slate-700">
+        2026 Developed By <span className="font-bold">Kamran</span>
       </div>
     </>
   );

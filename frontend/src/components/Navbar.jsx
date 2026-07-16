@@ -7,7 +7,7 @@ function Navbar() {
       <header className="bg-slate-200 shadow-md">
         <div className="flex justify-between items-center mx-auto p-3 max-w-6xl">
           <h1 className="md:w-50 w-25">
-            <img src="logo.png" alt="Logo" />
+            <img src="/logo.png" alt="Logo" />
           </h1>
           <form className="bg-slate-100 p-3 rounded-lg flex items-center">
             <input
@@ -28,8 +28,8 @@ function Navbar() {
                 About
               </li>
             </Link>
-            <Link to="/sign-in">
-              <li className="text-slate-700 hover:underline">Sign-in</li>
+            <Link to="/auth/login">
+              <li className="text-slate-700 hover:underline">Login</li>
             </Link>
           </ul>
         </div>
