@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 function Profile() {
+  const navigate = useNavigate();
+
   const { currentUser } = useSelector((state) => state.user);
   const [setUpdateProfile] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -15,7 +17,7 @@ function Profile() {
     reset,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -188,6 +190,7 @@ function Profile() {
                   URL.revokeObjectURL(avatorURL);
               }
               setAvatorURL(URL.createObjectURL(file));
+              toast.success("Image Uploaded Successfully");
             },
           })}
         />
