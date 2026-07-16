@@ -2,14 +2,22 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+} from "../redux/user/userSlice.js";
 
 function Profile() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const { currentUser } = useSelector((state) => state.user);
-  const [setUpdateProfile] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const { loading, currentUser } = useSelector((state) => state.user);
+  const [Loading, setLoading] = useState(false);
   const [avatorURL, setAvatorURL] = useState(currentUser.avator);
   const {
     register,
@@ -56,7 +64,7 @@ function Profile() {
         formData.append("avator", data.avator[0]);
       }
 
-      setLoading(true);
+      dispatch(updateUserStart());
 
       const response = await fetch(
         `/api/profile/profile-update/${currentUser._id}`,
@@ -70,22 +78,20 @@ function Profile() {
       const result = await response.json();
 
       if (response.ok) {
+        dispatch(updateUserSuccess(result));
         reset();
-        setUpdateProfile((prev) => prev + 1);
       } else {
-        toast.error(`Error: ${result.msg}`);
+        dispatch(updateUserFailure(result.msg));
       }
-      setLoading(false);
     } catch (error) {
       if (import.meta.env.VITE_ERROR === "development") console.error(error);
-      setLoading(false);
-      toast.error("Error failed to fetch API request");
+      dispatch(updateUserFailure("Error failed to fetch API request"));
     }
   };
 
   const handleAccountDelete = async () => {
     try {
-      setLoading(true);
+      dispatch(deleteUserStart());
       const response = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: "DELETE",
         credentials: "include",
@@ -95,15 +101,13 @@ function Profile() {
 
       if (response.ok) {
         navigate("/");
-        toast.success(result.msg);
+        dispatch(deleteUserSuccess(result));
       } else {
-        toast.error(result.msg);
+        dispatch(deleteUserFailure(result.msg));
       }
-      setLoading(false);
     } catch (error) {
       if (import.meta.env.VITE_ERROR === "development") console.error(error);
-      setLoading(false);
-      toast.error("Error failed to fetch API request");
+      dispatch(deleteUserFailure("Error failed to fetch API request"));
     }
   };
 
@@ -223,7 +227,7 @@ function Profile() {
           </p>
         )}
         <button
-          disable={loading}
+          disable={loading ? "false" : "true"}
           type="submit"
           className="bg-slate-700 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95 mt-3"
         >
@@ -252,19 +256,19 @@ function Profile() {
         />
 
         <button
-          disable={loading}
+          disable={Loading ? "false" : "true"}
           onClick={handleUpdatePassword}
           type="submit"
           className="bg-slate-700 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95 mt-3"
         >
-          {loading ? "Loading..." : "Update Password"}
+          {Loading ? "Loading..." : "Update Password"}
         </button>
       </form>
 
       <div className="text-2xl mt-5 text-red-600 font-bold">Delete Account</div>
       <div className="max-w-md w-full gap-1 p-6 flex flex-col mb-5">
         <button
-          disable={loading}
+          disable={loading ? "false" : "true"}
           onClick={handleAccountDelete}
           type="submit"
           className="bg-red-600 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95"
