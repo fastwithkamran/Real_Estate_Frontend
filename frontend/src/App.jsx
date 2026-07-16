@@ -13,7 +13,7 @@ function App() {
       <div>
         <Toaster position="top-center" />
       </div>
-      <div className="flex flex-col min-h-dvh w-full overflow-x-hidden bg-gray-200">
+      <div className="flex flex-col min-h-dvh w-full overflow-x-hidden bg-neutral-200">
         <nav className="mb-3">
           <Navbar />
         </nav>
