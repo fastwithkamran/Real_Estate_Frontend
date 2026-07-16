@@ -141,7 +141,6 @@ function Profile() {
       const result = await response.json();
 
       if (response.ok) {
-        navigate("/");
         toast.success(result.msg);
       } else {
         toast.error(result.msg);
@@ -243,21 +242,20 @@ function Profile() {
         <label className="font-bold text-gray-600">Current Password</label>
         <input
           className="border-none bg-amber-50 p-3 rounded-lg w-full5"
-          type="text"
+          type="password"
           {...register("password")}
           placeholder="Enter your current password"
         />
         <label className="font-bold text-gray-600 mt-3">New Password</label>
         <input
           className="border-none bg-amber-50 p-3 rounded-lg w-full"
-          type="text"
+          type="password"
           {...register("newpassword")}
           placeholder="Enter your new password"
         />
 
         <button
           disable={Loading ? "false" : "true"}
-          onClick={handleUpdatePassword}
           type="submit"
           className="bg-slate-700 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95 mt-3"
         >
