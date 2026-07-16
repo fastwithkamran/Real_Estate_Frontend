@@ -40,7 +40,7 @@ function Signup() {
         return;
       }
 
-      dispatch(loginStart);
+      dispatch(loginStart());
       formData.append("fullName", data.fullName);
       formData.append("email", data.email);
       formData.append("password", data.password);

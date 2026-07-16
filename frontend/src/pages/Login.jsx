@@ -35,7 +35,7 @@ function Login() {
         return;
       }
 
-      dispatch(loginStart);
+      dispatch(loginStart());
       formData.append("email", data.email);
       formData.append("password", data.password);
 
@@ -94,7 +94,7 @@ function Login() {
           placeholder="Password"
         />
         <button
-          disable={loading}
+          disable={loading ? "false" : "true"}
           type="submit"
           className="bg-slate-700 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95"
         >
