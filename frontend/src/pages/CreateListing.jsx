@@ -6,13 +6,21 @@ import { FaXmark } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 
 function CreateProperty() {
-  const { register, handleSubmit, reset, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
   const [descriptionList, setDescriptionList] = useState([]);
   const [currentDescription, setCurrentDescription] = useState("");
 
   const [sell, setSell] = useState(false);
   const [rent, setRent] = useState(false);
+  const [furnish, setFurnish] = useState(false);
+  const [parking, setParking] = useState(false);
 
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
@@ -23,28 +31,30 @@ function CreateProperty() {
   const selectedProvince = watch("province");
   const selectedCity = watch("city");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/user/verify-auth", {
-          method: "GET",
-          credentials: "include",
-        });
+  const [loading, setLoading] = useState(false);
 
-        const result = await response.json();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch("/api/user/verify-auth", {
+  //         method: "GET",
+  //         credentials: "include",
+  //       });
 
-        if (!response.ok) {
-          navigate("/");
-          toast.error(result.msg);
-        }
-      } catch (error) {
-        if (import.meta.env.VITE_ERROR === "development") console.error(error);
-        navigate("/");
-        toast.error("Error failed to fetch API request");
-      }
-    };
-    fetchData();
-  }, [navigate]);
+  //       const result = await response.json();
+
+  //       if (!response.ok) {
+  //         navigate("/");
+  //         toast.error(result.msg);
+  //       }
+  //     } catch (error) {
+  //       if (import.meta.env.VITE_ERROR === "development") console.error(error);
+  //       navigate("/");
+  //       toast.error("Error failed to fetch API request");
+  //     }
+  //   };
+  //   fetchData();
+  // }, [navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -166,9 +176,21 @@ function CreateProperty() {
         return;
       }
 
+      if (!data.bathrooms) {
+        toast.error("number of bathrooms?");
+      }
+
+      if (!data.bedrooms) {
+        toast.error("number of bedrooms?");
+      }
+
       if (!sell && !rent) {
         toast.error("is property for sell or rent?");
         return;
+      }
+
+      if (!data.phone) {
+        data.phone = null;
       }
 
       formData.append("title", data.title);
@@ -181,11 +203,12 @@ function CreateProperty() {
       formData.append("description", JSON.stringify(descriptionList));
       formData.append("bedrooms", data.bedrooms);
       formData.append("bathrooms", data.bathrooms);
-      if (data.phone) {
-        formData.append("phone", data.phone);
-      }
-      formData.append("forsell", sell);
-      formData.append("forrent", rent);
+      formData.append("phone", data.phone);
+      formData.append("sell", sell);
+      formData.append("rent", rent);
+      formData.append("furnish", furnish);
+      formData.append("parking", parking);
+      formData.append("type", data.type);
 
       if (data.propertyImages && data.propertyImages.length > 0) {
         const files = Array.from(data.propertyImages).slice(0, 5);
@@ -194,6 +217,8 @@ function CreateProperty() {
           formData.append("propertyImages", image);
         });
       }
+
+      setLoading(true);
 
       const response = await fetch("/api/property/createProperty", {
         method: "POST",
@@ -210,9 +235,11 @@ function CreateProperty() {
       } else {
         toast.error(`Error ${result.msg}`);
       }
+      setLoading(false);
     } catch (error) {
       if (import.meta.env.VITE_ERROR === "development") console.error(error);
       toast.error("Error failed to fetch API request");
+      setLoading(false);
     }
   };
 
@@ -239,13 +266,49 @@ function CreateProperty() {
             <h3 className="font-bold md:text-2xl">Property Information</h3>
             <hr />
 
-            <div className="m-3">
-              <label className="font-bold text-gray-600">Listing Type</label>
-              <div className="flex gap-2">
-                <input type="checkbox" onChange={() => setSell(!sell)} />
-                <span>For Sell</span>
-                <input type="checkbox" onChange={() => setRent(!rent)} />
-                <span>For Rent</span>
+            <div className="grid lg:grid-cols-2 grid-cols-1 m-3">
+              <div>
+                <label className="font-bold text-gray-600">Listing Type</label>
+                <div className="flex gap-1">
+                  <input type="checkbox" onChange={() => setSell(!sell)} />
+                  <span>Sell</span>
+                  <input type="checkbox" onChange={() => setRent(!rent)} />
+                  <span>Rent</span>
+                  <input
+                    type="checkbox"
+                    onChange={() => setFurnish(!furnish)}
+                  />
+                  <span>Furnished</span>
+                  <input
+                    type="checkbox"
+                    onChange={() => setParking(!parking)}
+                  />
+                  <span>Parking</span>
+                </div>
+              </div>
+
+              <div>
+                <label className="font-bold text-gray-600">Property Type</label>
+                <select
+                  {...register("type")}
+                  className="border-none bg-amber-50 p-1 w-full font-medium rounded-lg"
+                >
+                  <option
+                    key={"residential"}
+                    value={"residential"}
+                  >
+                    Residential (houses, flats)
+                  </option>
+                  <option
+                    key={"commercial"}
+                    value={"commercial"}
+                  >
+                    Commercial (offices, shops)
+                  </option>
+                  <option key={"land"} value={"land"}>
+                    Land/Plots
+                  </option>
+                </select>
               </div>
             </div>
 
@@ -457,7 +520,6 @@ function CreateProperty() {
                 Contact Information
               </h3>
               <hr />
-
               <label
                 htmlFor="phone"
                 className="font-bold text-gray-600 mt-3 mx-3"
@@ -467,10 +529,17 @@ function CreateProperty() {
                   className="border-none bg-amber-50 p-3 w-full font-medium rounded-lg"
                   type="tel"
                   id="phone"
-                  {...register("phone")}
+                  {...register("phone", {
+                    pattern: {
+                      value: /^923\d{9}$/,
+                      message:
+                        "Please provide a valid Pakistani mobile number in 923123456789 format",
+                    },
+                  })}
                   placeholder="923123456789"
                 />
               </label>
+              {errors?.phone && toast.error(errors.phone.message)}
               <label
                 htmlFor="email"
                 className="font-bold text-gray-600 mt-3 mx-3"
@@ -485,9 +554,10 @@ function CreateProperty() {
 
           <button
             type="submit"
+            disable={loading ? "false" : "true"}
             className="bg-blue-500 text-white font-bold mt-3 mx-auto w-full rounded-lg hover:bg-red-600 sm:col-span-2 p-3"
           >
-            Post Ad
+            {loading ? "Loading..." : "Create Advertisement"}
           </button>
         </form>
       </div>
