@@ -38,7 +38,7 @@ function Profile() {
 
         if (!response.ok) {
           navigate("/auth/login");
-          toast.error(result.msg);
+          dispatch(deleteUserFailure(result.msg));
         }
       } catch (error) {
         if (import.meta.env.VITE_ERROR === "development") console.error(error);
@@ -47,7 +47,7 @@ function Profile() {
       }
     };
     fetchData();
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   const handleUpdateProfile = async (data) => {
     try {
