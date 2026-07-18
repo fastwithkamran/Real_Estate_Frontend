@@ -1,12 +1,9 @@
 import { Navbar } from "./components";
 import { Footer } from "./components";
-import { Outlet, useLocation } from "react-router";
+import { Outlet } from "react-router";
 import { Toaster } from "react-hot-toast";
 
 function App() {
-  const location = useLocation();
-  const atHome = location.pathname === "/";
-  const atPage = location.pathname === "/user/property-page";
 
   return (
     <>
@@ -17,11 +14,7 @@ function App() {
         <nav className="mb-3">
           <Navbar />
         </nav>
-        <main
-          className={
-           `flex flex-col grow ${!atHome && !atPage} ?  "justify-center items-center p-auto" : ""`
-          }
-        >
+        <main className="flex flex-col grow justify-center items-center p-auto">
           <Outlet />
         </main>
         <footer className="mt-3">
