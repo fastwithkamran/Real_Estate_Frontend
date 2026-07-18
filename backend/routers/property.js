@@ -20,7 +20,6 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinaryModule,
   params: {
     folder: "real-estate/properties",
-    allowed_formats: ["jpg", "jpeg", "png"],
   },
 });
 
