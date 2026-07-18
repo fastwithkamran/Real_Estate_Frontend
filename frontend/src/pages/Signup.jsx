@@ -150,7 +150,7 @@ function Signup() {
 
       <div className="flex gap-2 mt-5">
         <p>Have an account?</p>
-        <Link to="/auth/login" className="text-blue-700">
+        <Link to="/login" className="text-blue-700">
           <span>Login</span>
         </Link>
       </div>

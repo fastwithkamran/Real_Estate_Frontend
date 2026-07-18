@@ -37,7 +37,7 @@ function Profile() {
         const result = await response.json();
 
         if (!response.ok) {
-          navigate("/auth/login");
+          navigate("/login");
           dispatch(deleteUserFailure(result.msg));
         }
       } catch (error) {
@@ -154,7 +154,7 @@ function Profile() {
   };
 
   return !currentUser ? (
-    navigate("/auth/login")
+    navigate("/login")
   ) : (
     <>
       <div className="mr-auto ml-2">
