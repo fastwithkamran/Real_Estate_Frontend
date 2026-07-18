@@ -76,6 +76,7 @@ function CreateListing() {
   useEffect(() => {
     if (!selectedProvince) {
       setCities([]);
+      setAreas([]);
       return;
     }
     const fetchData = async () => {
@@ -234,7 +235,8 @@ function CreateListing() {
       if (response.ok) {
         setDescriptionList([]);
         reset();
-        navigate("/");
+        toast.success(result.msg);
+        navigate("/search");
       } else {
         toast.error(`Error ${result.msg}`);
       }
@@ -296,13 +298,13 @@ function CreateListing() {
                   {...register("type")}
                   className="border-none bg-amber-50 p-1 w-full font-medium rounded-lg"
                 >
-                  <option key={"residential"} value={"residential"}>
+                  <option key={"Residential"} value={"residential"}>
                     Residential (houses, flats)
                   </option>
-                  <option key={"commercial"} value={"commercial"}>
+                  <option key={"Commercial"} value={"commercial"}>
                     Commercial (offices, shops)
                   </option>
-                  <option key={"land"} value={"land"}>
+                  <option key={"Land"} value={"land"}>
                     Land/Plots
                   </option>
                 </select>
