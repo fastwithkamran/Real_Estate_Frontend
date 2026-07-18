@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
-import { FaXmark } from "react-icons/fa6";
+import { FaXmark, FaAddressCard, FaBuilding } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import { FaMapMarkedAlt } from "react-icons/fa";
 
 function CreateListing() {
   const {
@@ -268,7 +269,10 @@ function CreateListing() {
           className="max-w-full grid md:grid-cols-2 gap-8"
         >
           <div className="border-none">
-            <h3 className="font-bold md:text-2xl">Property Information</h3>
+            <h3 className="font-bold md:text-2xl flex gap-3 items-center">
+              <FaBuilding />
+              Property Information
+            </h3>
             <hr />
 
             <div className="grid xl:grid-cols-2 grid-cols-1 m-3">
@@ -435,7 +439,10 @@ function CreateListing() {
 
           <div className="flex flex-col gap-3 border-none">
             <div>
-              <h3 className="font-bold md:text-2xl">Location</h3>
+              <h3 className="font-bold md:text-2xl flex gap-3 items-center">
+                <FaMapMarkedAlt />
+                Location
+              </h3>
               <hr />
 
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
@@ -515,7 +522,8 @@ function CreateListing() {
             </div>
 
             <div className="container flex flex-col">
-              <h3 className="font-bold mt-3 md:text-2xl">
+              <h3 className="font-bold mt-3 md:text-2xl flex gap-3 items-center">
+                <FaAddressCard />
                 Contact Information
               </h3>
               <hr />
