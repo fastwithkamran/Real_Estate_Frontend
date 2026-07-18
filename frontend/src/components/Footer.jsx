@@ -28,22 +28,22 @@ function Footer() {
                 Home
               </Link>
               <Link
-                to="/user/create-property"
+                to="/login"
                 className="text-blue-500 cursor-pointer hover:text-red-700"
               >
-                Create Ad
+                Login
               </Link>
               <Link
-                to="/user/settings/:userId"
+                to="/profile"
                 className="text-blue-500 cursor-pointer hover:text-red-700"
               >
-                Settings
+                Profile
               </Link>
               <Link
-                to="/user/allposts/:userId"
+                to="/create-listing"
                 className="text-blue-500 cursor-pointer hover:text-red-700"
               >
-                View All Posts
+                CreateListing
               </Link>
             </div>
           </div>
