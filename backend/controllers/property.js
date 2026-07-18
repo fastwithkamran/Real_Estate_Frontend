@@ -3,16 +3,22 @@ const Property = require("../models/property");
 const handleCreateProperty = async (req, res) => {
   try {
     const {
+      type,
       title,
+      price,
       description,
       country,
       province,
       city,
-      price,
       area,
       street,
-      allowWhatsApp,
-      allowEmail,
+      phone,
+      sell,
+      rent,
+      bedrooms,
+      bathrooms,
+      parking,
+      furnish,
     } = req.body;
 
     const userId = req.user;
@@ -25,7 +31,8 @@ const handleCreateProperty = async (req, res) => {
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhVmvwyjPCCOodYpjoSjqYhkhoXIXoX_8_pPBbItJluCyz0fQZrjqt6xI&s",
           ];
 
-    const property = await Property.create({
+    const propertyData = {
+      type,
       title,
       price,
       description,
@@ -34,9 +41,25 @@ const handleCreateProperty = async (req, res) => {
       city,
       area,
       street,
-      propertyImages,
-      allowWhatsApp,
-      allowEmail,
+      sell,
+      rent,
+      bedrooms,
+      bathrooms,
+      parking,
+      furnish,
+    };
+
+    if (phone !== "null") {
+      console.log(phone);
+      const phoneDuplicate = Property.findOne({ phone });
+      if (phoneDuplicate)
+        return res.status(400).json({ msg: "This Phone is already in use" });
+
+      propertyData.phone = phone;
+    }
+
+    const property = await Property.create({
+      ...propertyData,
       createdBy,
     });
 

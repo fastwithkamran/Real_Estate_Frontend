@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const propertySchema = new Schema(
   {
+    type: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -39,13 +43,32 @@ const propertySchema = new Schema(
         type: String,
       },
     ],
-    allowWhatsApp: {
+    sell: {
       type: Boolean,
-      default: false,
+      required: true,
     },
-    allowEmail: {
+    rent: {
       type: Boolean,
-      default: false,
+      required: true,
+    },
+    parking:{ 
+      type: Boolean,
+      required: true,
+    },
+    furnish: {
+      type: Boolean,
+      required: true,
+    },
+    bathrooms: {
+      type: Number,
+      required: true,
+    },
+    bedrooms: {
+      type: Number,
+      required: true,
+    },
+    phone: {
+      type: String,
     },
     createdBy: {
       type: Schema.Types.ObjectId,
