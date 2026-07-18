@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { FaXmark } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 
-function CreateProperty() {
+function CreateListing() {
   const {
     register,
     handleSubmit,
@@ -33,28 +33,28 @@ function CreateProperty() {
 
   const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch("/api/user/verify-auth", {
-  //         method: "GET",
-  //         credentials: "include",
-  //       });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/user/verify-auth", {
+          method: "GET",
+          credentials: "include",
+        });
 
-  //       const result = await response.json();
+        const result = await response.json();
 
-  //       if (!response.ok) {
-  //         navigate("/");
-  //         toast.error(result.msg);
-  //       }
-  //     } catch (error) {
-  //       if (import.meta.env.VITE_ERROR === "development") console.error(error);
-  //       navigate("/");
-  //       toast.error("Error failed to fetch API request");
-  //     }
-  //   };
-  //   fetchData();
-  // }, [navigate]);
+        if (!response.ok) {
+          navigate("/");
+          toast.error(result.msg);
+        }
+      } catch (error) {
+        if (import.meta.env.VITE_ERROR === "development") console.error(error);
+        navigate("/");
+        toast.error("Error failed to fetch API request");
+      }
+    };
+    fetchData();
+  }, [navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,9 +120,7 @@ function CreateProperty() {
     fetchData();
   }, [selectedCity]);
 
-  const AddDescription = (e) => {
-    e.preventDefault();
-
+  const AddDescription = () => {
     if (currentDescription.trim() === "") return;
 
     if (!descriptionList.includes(currentDescription.trim())) {
@@ -191,6 +189,11 @@ function CreateProperty() {
 
       if (!data.phone) {
         data.phone = null;
+      }
+
+      if (data.propertyImages.length > 5) {
+        toast.error("You can only upload 5 images");
+        return;
       }
 
       formData.append("title", data.title);
@@ -266,7 +269,7 @@ function CreateProperty() {
             <h3 className="font-bold md:text-2xl">Property Information</h3>
             <hr />
 
-            <div className="grid lg:grid-cols-2 grid-cols-1 m-3">
+            <div className="grid xl:grid-cols-2 grid-cols-1 m-3">
               <div>
                 <label className="font-bold text-gray-600">Listing Type</label>
                 <div className="flex gap-1">
@@ -293,16 +296,10 @@ function CreateProperty() {
                   {...register("type")}
                   className="border-none bg-amber-50 p-1 w-full font-medium rounded-lg"
                 >
-                  <option
-                    key={"residential"}
-                    value={"residential"}
-                  >
+                  <option key={"residential"} value={"residential"}>
                     Residential (houses, flats)
                   </option>
-                  <option
-                    key={"commercial"}
-                    value={"commercial"}
-                  >
+                  <option key={"commercial"} value={"commercial"}>
                     Commercial (offices, shops)
                   </option>
                   <option key={"land"} value={"land"}>
@@ -565,4 +562,4 @@ function CreateProperty() {
   );
 }
 
-export default CreateProperty;
+export default CreateListing;
