@@ -15,7 +15,7 @@ function Home() {
             to="/search"
             className="inline-block bg-blue-500 rounded-full mt-5 p-3 text-sm md:text-2xl text-amber-50 hover:bg-gray-600"
           >
-            Browse Now...
+            Browse Now
           </Link>
         </div>
         <img
