@@ -22,7 +22,7 @@ const handleUserDelete = async (req, res) => {
     }
   } catch (error) {
     console.error("Error Deleting User Account ", error);
-    return res.status(500).json({ msg: "Account Cannot Deleted" });
+    return res.status(500).json({ msg: "Server failed to delete data" });
   }
 };
 

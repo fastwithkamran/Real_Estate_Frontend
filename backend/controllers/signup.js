@@ -46,7 +46,7 @@ const handleUserSignUp = async (req, res) => {
     }
 
     console.error("Error in SignUp ", error);
-    return res.status(500).json({ msg: "Account Not Created" });
+    return res.status(500).json({ msg: "Server failed to send data" });
   }
 };
 
@@ -85,7 +85,7 @@ const handleGoogleAuth = async (req, res, next) => {
     }
 
     console.error("Error in Google SignUp ", error);
-    return res.status(500).json({ msg: "Account Not Created" });
+    return res.status(500).json({ msg: "Server failed to send data" });
   }
 };
 

@@ -43,7 +43,7 @@ const handleUpdateProfile = async (req, res) => {
     }
 
     console.error("Error Updating Profile ", error);
-    return res.status(500).json({ msg: "Error while Updating Profile" });
+    return res.status(500).json({ msg: "Server failed to send data" });
   }
 };
 
@@ -85,7 +85,7 @@ const handleUpdatePassword = async (req, res) => {
     return res.status(200).json({ msg: "Password Updated" });
   } catch (error) {
     console.error("Error Updating Password ", error);
-    return res.status(500).json({ msg: "Password Could Not Updated" });
+    return res.status(500).json({ msg: "Server failed to send data" });
   }
 };
 

@@ -29,7 +29,7 @@ const handleUserLogin = async (req, res) => {
       return res.status(400).json({ msg: "Incorrect Password or Email" });
 
     console.error("Error in Login Page ", error);
-    return res.status(500).json({ msg: "Cannot Login" });
+    return res.status(500).json({ msg: "Server failed to send data" });
   }
 };
 

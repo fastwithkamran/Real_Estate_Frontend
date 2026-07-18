@@ -68,7 +68,7 @@ const handleCreateProperty = async (req, res) => {
     console.error("Error Property Creation ", error);
     return res
       .status(500)
-      .json({ msg: "Cannot Create Property Advertisement" });
+      .json({ msg: "Server failed to send data" });
   }
 };
 
