@@ -3,7 +3,7 @@ import Login from "./Login.jsx";
 import Home from "./Home.jsx";
 
 import CreateListing from "./CreateListing.jsx";
-import PropertyPage from "./PropertyPage.jsx";
+import Listing from "./Listing.jsx";
 import Search from "./Search.jsx";
 
 import Profile from "./Profile.jsx";
@@ -14,7 +14,7 @@ export {
   Login,
   Home,
   CreateListing,
-  PropertyPage,
+  Listing,
   Search,
   Profile,
   UserListings,
