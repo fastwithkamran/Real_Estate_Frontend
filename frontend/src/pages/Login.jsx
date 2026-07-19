@@ -66,12 +66,12 @@ function Login() {
 
       <form
         encType="multipart/form-data"
-        className="flex flex-col gap-4 decoration-0"
+        className="flex flex-col gap-4 decoration-0 w-70 lg:w-1/4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <input
           type="text"
-          className="border-none bg-amber-50 p-3 rounded-lg pr-14 sm:pr-64"
+          className="border-none bg-amber-50 p-3 rounded-lg"
           type="email"
           {...register("email", {
             pattern: {
