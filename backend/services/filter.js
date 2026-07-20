@@ -57,8 +57,6 @@ const handleAllProperties = async (req, res) => {
       filter.province = province;
     }
 
-    console.log(filter)
-
     const searchTerm = req.query.searchTerm || "";
 
     const sort = req.query.sort || "createdAt";
@@ -77,6 +75,8 @@ const handleAllProperties = async (req, res) => {
         province: 1,
         city: 1,
         price: 1,
+        furnish: 1,
+        parking: 1,
         bedrooms: 1,
         bathrooms: 1,
         propertyImages: { $slice: 1 },
@@ -85,7 +85,6 @@ const handleAllProperties = async (req, res) => {
       .limit(limit)
       .lean();
 
-    console.log(result);
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error Filtering ", error);
