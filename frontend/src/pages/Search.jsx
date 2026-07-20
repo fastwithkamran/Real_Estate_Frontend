@@ -8,7 +8,7 @@ import { FaBed, FaBath, FaCouch } from "react-icons/fa";
 function Search() {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState(null);
-  const [showMore, setShowMore] = useState(true);
+  const [showMore, setShowMore] = useState(false);
   const navigate = useNavigate();
 
   const { register, watch } = useForm();
@@ -51,7 +51,7 @@ function Search() {
       } catch (error) {
         if (import.meta.env.VITE_ERROR === "development") console.error(error);
         setLoading(false);
-        setShowMore(true);
+        setShowMore(false);
         toast.error("Error failed to fetch API request");
       }
     };
@@ -179,22 +179,22 @@ function Search() {
       const result = await response.json();
 
       if (response.ok) {
+        navigate(`/search?${searchQuery}`);
         if (result.length < 9) {
-          onShowMoreClick(false);
-        } else onShowMoreClick(true);
+          setShowMore(false);
+        } else setShowMore(true);
         setListings(result);
       } else {
-        onShowMoreClick(true);
+        setShowMore(false);
         toast.error(result.msg);
       }
       setLoading(false);
     } catch (error) {
       if (import.meta.env.VITE_ERROR === "development") console.error(error);
       setLoading(false);
-      setShowMore(true);
+      setShowMore(false);
       toast.error("Error failed to fetch API request");
     }
-    navigate(`/search?${searchQuery}`);
   };
 
   const onShowMoreClick = async () => {
@@ -203,7 +203,7 @@ function Search() {
     urlParams.set("startIndex", numberofListings);
     const searchQuery = urlParams.toString();
     setLoading(true);
-    onShowMoreClick(false);
+    setShowMore(false);
     try {
       const response = await fetch(
         `/api/property/allProperties?${searchQuery}`,
@@ -212,18 +212,18 @@ function Search() {
 
       if (response.ok) {
         if (result.length < 9) {
-          onShowMoreClick(false);
-        } else onShowMoreClick(true);
+          setShowMore(false);
+        } else setShowMore(true);
         setListings(...listings, ...result);
       } else {
-        onShowMoreClick(true);
+        setShowMore(false);
         toast.error(result.msg);
       }
       setLoading(false);
     } catch (error) {
       if (import.meta.env.VITE_ERROR === "development") console.error(error);
       setLoading(false);
-      onShowMoreClick(true);
+      setShowMore(false);
       toast.error("Error failed to fetch API request");
     }
   };
