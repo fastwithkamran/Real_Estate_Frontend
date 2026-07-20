@@ -14,9 +14,12 @@ const profileRoute = require("./routers/profile");
 const handleSeedLocations = require("./services/seedLocation");
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
 
-const allowedOrigins = ["http://localhost:5173", "https://paklands-realestate-project.vercel.app"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://paklands-realestate-project.vercel.app",
+];
 
 app.use(
   cors({
@@ -32,15 +35,16 @@ app.use(
   }),
 );
 
+app.use(express.json());
 app.use(cookieParser());
 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(async () => {
     console.log("MongoDB Atlas Connected");
-    
+
     await handleSeedLocations();
-    
+
     app.use("/user", authRoute);
     app.use("/property", propertyRoute);
     app.use("/location", locationRoute);
