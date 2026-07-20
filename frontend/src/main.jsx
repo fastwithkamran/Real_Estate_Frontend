@@ -18,6 +18,7 @@ import {
   Signup,
   Login,
   Home,
+  About,
   CreateListing,
   Listing,
   Search,
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="/" element={<Home />} />
       <Route path="/search" element={<Search />} />
+      <Route path="/about" element={<About />} />
       <Route path="/create-listing" element={<CreateListing />} />
       <Route path="/listing-page/:id" element={<Listing />} />
       <Route path="/signup" element={<Signup />} />
