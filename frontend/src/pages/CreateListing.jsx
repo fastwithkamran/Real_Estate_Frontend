@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import { FaXmark, FaAddressCard, FaBuilding } from "react-icons/fa6";
 import { useSelector } from "react-redux";
@@ -252,12 +252,12 @@ function CreateListing() {
   return (
     <>
       <div className="mr-auto ml-2">
-        <Link
-          to="/"
+        <button
+          navigate="-1"
           className="text-2xl font-medium text-slate-500 hover:text-blue-600"
         >
           Back
-        </Link>
+        </button>
       </div>
 
       <h1 className="text-3xl font-semibold my-7">Sell Your Property</h1>

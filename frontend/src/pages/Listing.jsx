@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -50,12 +50,12 @@ function Listing() {
       return (
         <>
           <div className="mr-auto ml-2">
-            <Link
-              to="/"
+            <button
+              navigate="-1"
               className="text-2xl font-medium text-slate-500 hover:text-blue-600"
             >
               Back
-            </Link>
+            </button>
           </div>
           <Swiper
             modules={[Navigation]}

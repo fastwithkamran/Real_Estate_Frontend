@@ -80,12 +80,12 @@ function UserListings() {
   return (
     <>
       <div className="mr-auto ml-2">
-        <Link
-          to="/"
+        <button
+          navigate="-1"
           className="text-2xl font-medium text-slate-500 hover:text-blue-600"
         >
           Back
-        </Link>
+        </button>
       </div>
 
       <h1 className="font-bold text-3xl mb-2">Your Listings</h1>
