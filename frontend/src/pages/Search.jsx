@@ -11,7 +11,7 @@ function Search() {
   const [showMore, setShowMore] = useState(false);
   const navigate = useNavigate();
 
-  const { register, watch } = useForm();
+  const { register, watch, setValue } = useForm();
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
   const [areas, setAreas] = useState([]);
@@ -73,12 +73,14 @@ function Search() {
       }
     };
     fetchData();
-  }, []);
+  }, [setValue]);
 
   useEffect(() => {
+    setAreas([]);
+    setValue("city", "");
+    setValue("area", "");
     if (!selectedProvince) {
       setCities([]);
-      setAreas([]);
       return;
     }
     const fetchData = async () => {
@@ -97,9 +99,10 @@ function Search() {
       }
     };
     fetchData();
-  }, [selectedProvince]);
+  }, [selectedProvince, setValue]);
 
   useEffect(() => {
+    setValue("area", "");
     if (!selectedCity) {
       setAreas([]);
       return;
@@ -121,7 +124,7 @@ function Search() {
       }
     };
     fetchData();
-  }, [selectedCity]);
+  }, [selectedCity, setValue]);
 
   const handleChange = async (e) => {
     if (
@@ -168,7 +171,7 @@ function Search() {
     urlParams.set("sort", sidebarData.sort);
     urlParams.set("order", sidebarData.order);
     urlParams.set("province", selectedProvince);
-    urlParams.set("city", selectedCity);
+    urlParams.set("city", selectedCity || "");
     urlParams.set("area", selectedArea);
     const searchQuery = urlParams.toString();
 
