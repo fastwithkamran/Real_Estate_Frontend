@@ -9,25 +9,25 @@ const handleAllProperties = async (req, res) => {
       req.query;
     let filter = {};
 
-    if (sell === undefined || sell === "true") {
+    if (sell === "true") {
       filter.sell = true;
     } else {
       filter.sell = { $in: [true, false] };
     }
 
-    if (rent === undefined || rent === "true") {
+    if (rent === "true") {
       filter.rent = true;
     } else {
       filter.rent = { $in: [true, false] };
     }
 
-    if (parking === undefined || parking === "true") {
+    if (parking === "true") {
       filter.parking = true;
     } else {
       filter.parking = { $in: [true, false] };
     }
 
-    if (furnish === undefined || furnish === "true") {
+    if (furnish === "true") {
       filter.furnish = true;
     } else {
       filter.furnish = { $in: [true, false] };
@@ -57,6 +57,8 @@ const handleAllProperties = async (req, res) => {
       filter.province = province;
     }
 
+    console.log(filter)
+
     const searchTerm = req.query.searchTerm || "";
 
     const sort = req.query.sort || "createdAt";
@@ -64,8 +66,8 @@ const handleAllProperties = async (req, res) => {
     const order = req.query.order || "desc";
 
     const result = await Property.find({
-      filter,
-      name: { $regex: searchTerm, $options: "i" },
+      ...filter,
+      title: { $regex: searchTerm, $options: "i" },
     })
       .sort({ [sort]: order })
       .select({
@@ -83,6 +85,7 @@ const handleAllProperties = async (req, res) => {
       .limit(limit)
       .lean();
 
+    console.log(result);
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error Filtering ", error);
