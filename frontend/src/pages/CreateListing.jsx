@@ -567,7 +567,7 @@ function CreateListing() {
 
           <button
             type="submit"
-            disable={loading ? "false" : "true"}
+            disabled={loading}
             className="bg-blue-500 text-white font-bold mt-3 mx-auto w-full rounded-lg hover:bg-red-600 sm:col-span-2 p-3"
           >
             {loading ? "Loading..." : "Create Advertisement"}

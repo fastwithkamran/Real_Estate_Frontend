@@ -227,7 +227,7 @@ function Profile() {
           </p>
         )}
         <button
-          disable={loading ? "false" : "true"}
+          disabled={loading}
           type="submit"
           className="bg-slate-700 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95 mt-3"
         >
@@ -256,7 +256,7 @@ function Profile() {
         />
 
         <button
-          disable={Loading ? "false" : "true"}
+          disabled={loading}
           type="submit"
           className="bg-slate-700 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95 mt-3"
         >
@@ -267,7 +267,7 @@ function Profile() {
       <div className="text-2xl mt-5 text-red-600 font-bold">Delete Account</div>
       <div className="max-w-md w-full gap-1 p-6 flex flex-col mb-5">
         <button
-          disable={loading ? "false" : "true"}
+          disabled={loading}
           onClick={handleAccountDelete}
           type="submit"
           className="bg-red-600 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95"

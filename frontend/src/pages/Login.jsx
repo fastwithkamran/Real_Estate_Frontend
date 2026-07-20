@@ -94,7 +94,7 @@ function Login() {
           placeholder="Password"
         />
         <button
-          disable={loading ? "false" : "true"}
+          disabled={loading}
           type="submit"
           className="bg-slate-700 disabled:opacity-80 text-white font-bold p-3 rounded-lg hover:opacity-95"
         >
